@@ -1,6 +1,7 @@
 # SOCIAL MEDIA MARKETING AGENCY SYSTEM
 # Data Structure used : Singly Linked List
-# Files used          : clients.txt -> client records (name,phone,platform,service,budget)
+# Files used          : clients.txt -> client records
+#                                      (name,phone,platform,service,budget)
 #                       login.txt   -> staff login details (username,password)
 
 CLIENT_FILE = "clients.txt"
@@ -41,7 +42,8 @@ class AgencyList:
         if self.head is None:
             print("--- No clients available ---")
             return
-        print(f"{'NO':<4}{'NAME':<19}{'PHONE':<12}{'PLATFORM':<11}{'SERVICE':<20}{'BUDGET':>8}")
+        print(f"{'NO':<4}{'NAME':<19}{'PHONE':<12}"
+              f"{'PLATFORM':<11}{'SERVICE':<20}{'BUDGET':>8}")
         print("-" * 74)
         count = 0
         total = 0
@@ -49,8 +51,9 @@ class AgencyList:
         while current is not None:
             count = count + 1
             total = total + current.budget
-            print(f"{count:<4}{current.name[:18]:<19}{current.phone:<12}{current.platform:<11}"
-                  f"{current.service:<20}{current.budget:>8}")
+            print(f"{count:<4}{current.name[:18]:<19}{current.phone:<12}"
+                  f"{current.platform:<11}{current.service:<20}"
+                  f"{current.budget:>8}")
             current = current.next
         print("-" * 74)
         print("Total Clients :", count, "     Total Monthly Budget : Rs.", total)
@@ -123,7 +126,8 @@ class AgencyList:
                 for line in file:
                     parts = line.strip().split(",")
                     if len(parts) == 5:
-                        self.add_client(parts[0], parts[1], parts[2], parts[3], int(parts[4]))
+                        self.add_client(parts[0], parts[1], parts[2],
+                                        parts[3], int(parts[4]))
         except FileNotFoundError:
             print("(clients.txt not found - starting with an empty list)")
 
@@ -134,8 +138,9 @@ def check_login(username, password):
         with open(LOGIN_FILE, "r") as file:
             for line in file:
                 parts = line.strip().split(",")
-                if len(parts) == 2 and parts[0] == username and parts[1] == password:
-                    return True
+                if len(parts) == 2:
+                    if parts[0] == username and parts[1] == password:
+                        return True
     except FileNotFoundError:
         print("login.txt not found!")
     return False
@@ -174,7 +179,8 @@ while attempts > 0 and not logged_in:
         logged_in = True
     else:
         attempts = attempts - 1
-        print("<---- Incorrect Username or Password ---->  Attempts left :", attempts)
+        print("<---- Incorrect Username or Password ---->")
+        print("Attempts left :", attempts)
 
 if not logged_in:
     print("Access denied. Please contact the agency admin.")
